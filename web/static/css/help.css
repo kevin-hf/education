@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+body {
+  background: #F1F1F1;
+  color: #333333;
+  text-align: left;
+  font: 14px/25px "Microsoft YaHei", "微软雅黑", "SimSun", "宋体", HELVETICA;
+}
+
+.container {
+  background: #fff;
+  padding: 0px 0 10px;
+  border: 1px solid #E6E6E6;
+}
+
+.m_yah {
+  height: 40px;
+  line-height: 40px;
+  color: #666666;
+  border-bottom: 1px solid #E6E6E6;
+  padding: 0 20px;
+  font-size: 12px;
+}
+
+.m_s_l {
+  width: 219px;
+  float: left;
+  display: inline;
+  background: url(../images/vline.gif) repeat-y right;
+  /* padding-bottom: 20px; */
+  padding-right: 1px;
+}
+
+.m_s_l_menu {
+  height: 48px;
+  line-height: 48px;
+  border-top: 1px solid #E6E6E6;
+  border-bottom: 1px solid #E6E6E6;
+  margin-top: -1px;
+  background: #F9F9F9;
+  font-size: 18px;
+  font-weight: bold;
+  padding-left: 20px;
+  color: #2EAFBB;
+}
+
+.m_s_l_ul {
+  width: 180px;
+  margin: 10px auto 20px auto;
+}
+
+.m_s_l_ul li {
+  width: 158px;
+  border-bottom: 1px dotted #DDDDDD;
+  padding: 4px 0px 4px 22px;
+  position: relative;
+}
+
+a:link, a:visited {
+  color: #333333;
+  text-decoration: none;
+}
+
+.m_s_l_ul li span.icon_list {
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  height: 16px;
+  width: 16px;
+  display: block;
+  background: url(../images/icon_list.png) no-repeat 0 0;
+  overflow: hidden;
+}
+
+.m_s_r {
+  width: 779px;
+  padding-bottom: 20px;
+  float: left;
+  display: inline;
+  background: url(../images/vline.gif) repeat-y left;
+  margin-left: -1px;
+  height: auto;
+  min-height: 100vh;
+}
+
+.m_cnt_m {
+  width: 700px;
+  margin: 0 auto;
+  display: none;
+}
+
+.m_l h2, .m_s_r h2 {
+  font-size: 24px;
+  font-weight: normal;
+  text-align: center;
+  line-height: 40px;
+  padding: 15px 0 10px 0;
+  color: #2EAFBB;
+}
+
+.m_s_r a, .m_s_r a:link, .m_s_r a:visited {
+  color: #2EAFBB;
+}
+
+.m_s_r h3 {
+  text-align: left;
+  height: 35px;
+  line-height: 35px;
+  padding-top: 10px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #2EAFBB;
+}
+
+.m_s_r p {
+  text-indent: 2em;
+  margin-bottom: 1em;
+}
+
+.current,.current a {
+  color: #2EAFBB;
+  font-weight: bold;
+}
+
+.current span {
+  background: url(../images/icon_list.png) no-repeat 0 -16px !important;
+}

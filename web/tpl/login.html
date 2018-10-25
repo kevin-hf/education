@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>login</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="/static/css/reset.css" rel="stylesheet">
+    <!-- Bootstrap3.3.5 CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/login.css" rel="stylesheet"></head>
+
+  <body>
+  {{if .Flag}}
+  <div id="popout">
+      <div class="popout">
+          <div class="">用户名或密码输入错误!请重新输入</div>
+          <p><button type="button" name="button">好的</button></p>
+      </div>
+  </div>
+  {{end}}
+    <div class="my-outer-layer">
+      <div class="logon_centerBg logon_centerBg_my">
+        <div class="width1200">
+
+          <div class="login-box-my">
+            <h2>登录</h2>
+            <p>请使用
+              <a href="#" target="_blank"><b>ChainDesk账号</b> </a>进行登录</p>
+            <div class="cr_top_my">
+              <form id="fm1" action="/login" method="post" autocomplete="off">
+                <div class="ct_input">
+                  <span class="ct_img_yhm">&nbsp;</span>
+                  <input id="username" name="loginName" class="input_text" tabindex="1" onfocus="if(this.value=='手机号/身份证号/邮箱'){this.value='';}this.className ='input_text input_text_focus'" onblur="if(this.value==''){this.value='手机号/身份证号/邮箱';this.className ='input_text'}" accesskey="n" type="text" value="手机号/身份证号/邮箱" size="25" autocomplete="off">
+                </div>
+                <div class="ct_input">
+                  <span class="ct_img_mm">&nbsp;</span>
+                  <input id="password" name="password" class="input_text" tabindex="2" onfocus="if(this.value=='密码'){this.value='';}this.className ='input_text input_text_focus'" onblur="if(this.value==''){this.value='密码';this.className ='input_text'}" accesskey="n" type="text" value="密码" size="25" autocomplete="off">
+                </div>
+                <input class="btn_login btn_login_my" name="submit" accesskey="l" value="登&nbsp;&nbsp;录" tabindex="3" type="submit" title="登录">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function() {
+          $('.popout button').on('click',function() {
+              $('#popout').css('display','none');
+          })
+      })
+  </script>
+  <style type="text/css">
+      #popout{
+          width: 100%;
+          height: 100%;
+          font-family: '微软雅黑';
+          background-color: rgba(0,0,0,.5);
+          position: absolute;
+          z-index: 1;
+          display: block;
+      }
+      .popout{
+          width: 500px;
+          height: auto;
+          line-height: 30px;
+          color: #000;
+          font-size: 20px;
+          background: #fff;
+          padding: 30px;
+          text-align: left;
+          position: relative;
+          left:50%;
+          top: 200px;
+          margin-left:-250px;
+          z-index:1;
+          border-radius: 2px;
+      }
+      .popout>div,.popout>div p{
+          width: 100%;
+          font-family: '微软雅黑';
+          word-break: break-all;
+          word-wrap: break-word;
+      }
+      .popout>div p:nth-of-type(1){
+          color: #333;
+          font-size: 20px;
+          font-weight: bolder;
+      }
+      .popout>div p:nth-of-type(2){
+          color: #58666e;
+          font-size: 16px;
+      }
+      .popout>p{
+          text-align: right;
+      }
+      .popout>p button{
+          width: 100px;
+          height: 40px;
+          line-height: 40px;
+          border: none;
+          border-radius: 6px;
+          outline: none;
+          color: #fff;
+          font-size: 18px;
+          background-color: #3288e6;
+          font-family: '微软雅黑';
+          cursor: pointer;
+      }
+  </style>
+</html>

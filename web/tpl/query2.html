@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>query2</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="/static/css/reset.css" rel="stylesheet">
+    <!-- Bootstrap3.3.5 CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/query.css">
+  </head>
+  <body>
+    <div class="container">
+      <h2>中国高等教育学历证书查询</h2>
+      <div id="query">
+            <div class="left">
+              <form action="/query2" method="post" name="queryForm">
+                <p>
+                  身份证号码：
+                  <!-- <input type="text" name="" value="" placeholder="绑定学历证书的身份证号码" maxlength="18"> -->
+                  <input type="text" class="input_text" name="entityID" onfocus="if(this.placeholder=='绑定学历证书的身份证号码'){this.placeholder='';}this.className ='input_text input_text_focus'" onblur="if(this.value==''){this.placeholder='绑定学历证书的身份证号码';this.className ='input_text'}" value="" placeholder="绑定学历证书的身份证号码" maxlength="18">
+                </p>
+                <!-- <p>
+                  姓名：
+                  <input type="text" name="" value="" placeholder="学历证书或学历证明书上的姓名">
+                </p> -->
+                <p>
+                  <button type="button" name="button" class="btn">免费查询</button>
+                </p>
+                <a href="/index">返回首页</a>
+                <a href="/queryPage">根据证书编号查询</a>
+              </form>
+            </div>
+        <div class="right">
+          <p><b>注意</b></p>
+          <p>1、点此查看<a href="./help.html">学历证书查询范围。</a></p>
+          <p>2、查询学历证书需经权属人同意。</p>
+          <p>3、学历证书查询结果不得用于违背权属人意愿之用途。</p>
+          <p>4、学历证书和证明书由各高校自行印制，证书编号通常为18位。不知道证书编号的,可咨询发证学校。</p>
+          <p>5、服务咨询热线:010-82199588 <br/>邮箱:kefu@chsi.com.cn</p>
+        </div>
+      </div>
+      <!-- data-backdrop="false"去除遮罩层  -->
+      <div class="modal fade bd-example-modal-sm"  id="myModal" role="dialog" data-backdrop="false"  aria-hidden="true">
+          <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                  <p class="text-center mb-0" style="height:42px;line-height:42px;margin:0;">
+                      <i class="fa fa-check-circle text-success mr-1" aria-hidden="true"></i>
+                      请输入要查询的身份证号码
+                  </p>
+              </div>
+          </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      var inputs = $('input[type="text"]');
+      // 提交按钮
+      $('.btn').click(function() {
+        // 如果为空 报错提示
+        for (var i = 0; i < inputs.length; i++) {
+          if (!($(inputs[i]).val())) {
+            $(inputs[i]).addClass('redColor');
+            $('#myModal').modal('show');
+            setTimeout(function(){
+              $("#myModal").modal("hide");
+            },2000);
+            return;
+          }
+        }
+
+        // 成功后提交数据
+        //$(location).attr('href','queryResult.html');
+        $("form[name='queryForm']").submit()
+      })
+    })
+  </script>
+</html>

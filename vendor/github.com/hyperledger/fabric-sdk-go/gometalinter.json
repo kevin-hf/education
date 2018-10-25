@@ -1,0 +1,35 @@
+{
+  "Deadline": "5m",
+  "Exclude": [
+    ".*seekInfo can be .*proto.Message.*",
+    "test/integration/msp/check_cert_attributes.go",
+    "test/integration/msp/check_cert_ser_attributes_prev.go",
+    "test/fixtures/testdata/..."
+  ],
+  "EnableGC": true,
+  "WarnUnmatchedDirective": true,
+  "Enable": [
+    "deadcode",
+    "gocyclo",
+    "gofmt",
+    "gotype",
+    "goimports",
+    "golint",
+    "gosimple",
+    "ineffassign",
+    "interfacer",
+    "misspell",
+    "unconvert",
+    "unused",
+    "vet",
+    "varcheck",
+    "maligned",
+    "errcheck",
+    "megacheck",
+    "goconst",
+    "gas",
+    "structcheck"
+  ],
+  "Cyclo": 10,
+  "Aggregate": true
+}

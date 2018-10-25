@@ -1,0 +1,70 @@
+@charset "UTF-8";
+.input_text{
+  width: 240px;
+  padding: 0 10px;
+}
+.queryResule .top>div>p>span{
+  height: 45px;
+  line-height: 45px;
+}
+.queryResule{
+  width: 930px;
+  position: relative;
+}
+.btn{
+  display: block;
+  width: 132px;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0;
+  color: #fff;
+  background-color: #2eafbb;
+  cursor: pointer;
+  outline: none;
+  margin-top: 50px;
+}
+.queryResule .top>div>div{
+  float: right;
+  margin-top: 50px;
+  line-height: 160px;
+  text-align: center;
+  font-size: 40px;
+  position: relative;
+  color: #dbdbdb;
+  border: 1px solid #dbdbdb;
+}
+.queryResule .top>div>div>input,.queryResule .top>div>div>img{
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.queryResule .top>div>div>img,.queryResule .top>div>div>input,.queryResule .top>div>div{
+  width: 120px;
+  height: 160px;
+}
+.queryResule .top>div>div>input{
+  z-index: 1;
+  opacity: 0;
+}
+.redColor{
+  border-color: red;
+}
+.headImg p{
+  float: right;
+  color: #dbdbdb;
+  margin-right: -4px;
+  margin-top: 10px;
+}
+.back{
+  text-align: right;
+  position: absolute;
+  top: 30px;
+  right: 0;
+}
+a, a:active, a:link, a:visited {
+  color: #2EAFBB;
+  text-decoration: underline;
+}

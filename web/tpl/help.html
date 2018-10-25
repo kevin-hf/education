@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>help</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="/static/css/reset.css" rel="stylesheet">
+    <!-- Bootstrap3.3.5 CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/help.css" rel="stylesheet"></head>
+  </head>
+  <body>
+    <div class="container">
+      <div class="m_yah"><a href="/index">首页</a> &gt; 帮助中心</div>
+      <div class="m_s_l" id="leftMenu">
+
+        <div class="m_s_l_menu">查询范围</div>
+        <ul class="m_s_l_ul">
+          <li class="leftMenu0 index">
+            <span class="icon_list">&nbsp;</span>
+            <a href="javascript:void(0);">学籍学历查询范围</a>
+          </li>
+        </ul>
+
+        <div class="m_s_l_menu">学历查询</div>
+        <ul class="m_s_l_ul">
+          <li class="leftMenu1">
+            <span class="icon_list">&nbsp;</span>
+            <a href="/queryPage">根据证书编号查询</a>
+          </li>
+          <li class="leftMenu2">
+            <span class="icon_list">&nbsp;</span>
+            <a href="/queryPage2">根据身份证号查询</a>
+          </li>
+          {{if eq .CurrentUser.IsAdmin "T"}}
+            <li class="leftMenu3">
+              <span class="icon_list">&nbsp;</span>
+              <a href="/addEduInfo">添加学历信息</a>
+            </li>
+          {{end}}
+          <li class="leftMenu4">
+            <span class="icon_list">&nbsp;</span>
+            <a href="javascript:void(0);">企业用户查询</a>
+          </li>
+          <li class="leftMenu5">
+            <span class="icon_list">&nbsp;</span>
+            <a href="/loginout">退出</a>
+          </li>
+        </ul>
+
+        <div class="m_s_l_menu">学籍查询</div>
+        <ul class="m_s_l_ul">
+          <li class="onread leftMenu5">
+            <span class="icon_list">&nbsp;</span>
+            <a href="javascript:void(0);">学籍查询</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="m_s_r" id="rightCnt">
+        <div class="m_cnt_m">
+          <h2>学籍学历查询范围</h2>
+          <a id="1" name="1"></a>
+          <h3>&gt;&gt;学籍查询范围</h3>
+          <p>国家承认的各类高等教育在籍学生的学籍注册信息（不含自考），以及2001年以来的学籍档案（已离校学生在籍期间的学籍注册信息）。</p>
+          <p>学籍查询服务仅提供给学生本人，需实名注册后进入学信档案使用。</p>
+          <div class="line margin01">&nbsp;</div>
+          <a id="2" name="2"></a>
+          <h3>&gt;&gt;学历查询范围</h3>
+          <p>2001年以来国家承认的各类高等教育学历证书电子注册信息（含学历证明书）。包括研究生、普通本专科、成人本专科（
+            <a href="javascript:void(0);" class="colorBlue">注册进度</a>）、网络教育（
+            <a href="javascript:void(0);" class="colorBlue">注册进度</a>）、开放教育、高等教育自学考试（
+            <a href="javascript:void(0);" class="colorBlue">注册进度</a>）以及高等教育学历文凭考试（
+            <a href="javascript:void(0);" class="colorBlue">注册进度</a>）等。
+          </p>
+          </div>
+        <div class="m_cnt_m">
+          <h2>学历查询-本人查询</h2>注册
+          <a href="http://chaindesk.cn" target="_blank" class="color01">ChainDesk账号</a>，登录
+          <a href="javascript:void(0);" class="color01">征信档案</a>，即可免费查询本人学历。
+        </div>
+        <div class="m_cnt_m">
+          <h2>学历查询-零散查询</h2>
+          <p>通过学信网
+            <a href="javascript:void(0);" class="color01">学历查询</a>栏目查询学历。
+            <br>
+            <br></p>
+          <a id="1" name="1"></a>
+          <h3>&gt;&gt;学历查询范围</h3>
+          <p>
+            <strong>问：网站学历查询系统
+              <span class="colorRed">能查哪些学历？</span></strong>
+          </p>
+          <p>答：点击查看
+            <a href="javascript:void(0);">学历查询范围</a>。</p>
+          <p>
+            <strong>问：网站学历查询系统可以
+              <span class="colorRed">查询学位证书</span>吗？</strong></p>
+          <p>答：网站学历查询系统只能查询毕业生学历证书电子注册信息，不能查询学位。</p>
+          <div class="line margin01">&nbsp;</div>
+          <a id="2" name="2"></a>
+          <h3>&gt;&gt;学历查询方法</h3>
+          <p>
+            <strong>问：
+              <span class="colorRed">如何使用学历查询系统</span>？</strong></p>
+          <p>答：输入证书编号、姓名、图片验证码三项，点击“查询”按钮即可。其中证书编号和姓名须与毕业证书上的信息一致。</p>
+          <p>
+            <strong>问：
+              <span class="colorRed">证书编号</span>一栏应该输入什么？</strong></p>
+          <p>答：不同高校的毕业证书上关于证书编号的称谓可能不尽相同，但都是一组17 位或 18 位的数字，这组数字就是 “证书编号”。早期毕业证上的编号可能不足 17 位，如实输入即可。</p>
+          <p>
+            <strong>问：为什么
+              <span class="colorRed">必须输入验证码</span>？</strong></p>
+          <p>答：验证码是学历查询系统提供的一种基本的安全防范措施，其根本目的在于杜绝一些非法用户采用程序提交等手段攻击系统，确保合法用户的正常使用。验证码必须与图片中给出的四个数字一致。</p>
+          <p>
+            <strong>问：
+              <span class="colorRed">提示验证码有误</span>怎么办？</strong></p>
+          <p>答：验证码就是输入框右侧显示的四个数字，均为半角数字，请将输入法切换至英文模式或半角状态下输入。若验证码没有正常显示，可尝试刷新页面。</p>
+          <div class="line margin01">&nbsp;</div>
+          <a id="3" name="3"></a>
+          <h3>&gt;&gt;学历查询结果</h3>
+          <p>
+            <strong>问：我正确输入了证书编号和姓名，为何
+              <span class="colorRed">查不到学历</span>？</strong></p>
+          <p>答：有可能学校漏报数据或者学校上报的数据有误，具体情况可联系毕业院校学籍学历管理部门。</p>
+          <p>
+            <strong>问：
+              <span class="colorRed">查到了学历，但信息有误</span>怎么办？</strong></p>
+          <p>答：请联系毕业院校学籍学历管理部门申请修改。学信网无权直接修改数据。</p>
+          <p>
+            <strong>问：
+              <span class="colorRed">查询内容显示为“*”</span>是什么意思？</strong></p>
+          <p>答：学历注册数据如果内容不完整将用星号（
+            <span class="colorRed">“*”</span>）代替。</p>
+          <p>
+            <strong>问：查到学历后，点"
+              <span class="colorRed">查看学历认证报告</span>"，为什么报告上有"虚拟"两个字?</strong></p>
+          <p>答：这说明尚未申请办理学历认证报告，看到的只是报告样式。</p>
+          <p>
+            <strong>问：学历查询系统为什么会
+              <span class="colorRed">出现空白页面</span>？</strong></p>
+          <p>答：由于 Windows 98 和 Windows Me 系统中的 IE 不能很好的支持大字符集，因此当您使用以上系统时，请在“查看 -&gt; 编码”菜单中把编码设为“自动选择”，以免出现空白页面或换台电脑登录。</p>
+          <p>
+            <strong>问：
+              <span class="colorRed">结业证书</span>信息如何更新为毕业证书信息？</strong></p>
+          <p>答：若确已取得毕业证书，请联系毕业院校学籍学历管理部门申请修正。</p>
+          <div class="line margin01">&nbsp;</div>
+          <a id="4" name="4"></a>
+          <h3>&gt;&gt;其他相关问题</h3>
+          <p>
+            <strong>问：毕业证书丢失，如何
+              <span class="colorRed">补办毕业证</span>？</strong></p>
+          <p>答：请联系毕业院校学籍学历管理部门补办毕业证明书。</p>
+          <p>
+            <strong>问：如何得知
+              <span class="colorRed">某种学历国家是否承认</span>？</strong></p>
+          <p>答：取得毕业证后登录网上查询或经过学历认证才能确认。</p>
+          <p>
+            <strong>问：
+              <span class="colorRed">某学校是否为国家承认</span>的学校？</strong></p>
+          <p>答：请咨询当地教育主管部门。</p>
+        </div>
+        <div class="m_cnt_m">
+          <h2>学历查询-企业用户查询</h2>在学信网
+          <a href="javascript:void(0);" class="color01">学信就业</a>注册成为会员后进行学历查询。
+          <a href="javascript:void(0);" class="color01">详情 &gt;&gt;</a>
+          <br>
+          <br>
+          <p>
+            <strong>问：企业会员的学历查询范围？</strong></p>
+          <p>答：点击查看
+            <a href="javascript:void(0);">学历查询范围</a>。</p>
+          <p>
+            <strong>问：如何申请企业会员？</strong></p>
+          <p>答：点击查看
+            <a href="javascript:void(0);">“企业用户申请及学信卡购买流程”</a>
+            <br></p>
+          <p>
+            <strong>问：什么是学信卡？&nbsp;</strong></p>
+          <p>答：学信卡是企业账户余额的充值卡，购卡流程详见
+            <a href="javascript:void(0);">“企业用户申请及学信卡购买流程”</a>。</p>
+          <p>
+            <strong>问：为什么学信卡会充值不成功？</strong></p>
+          <p>答：输入密码时注意区分数字及字母大小写，例如：数字“0”与字母“o”、 数字“1”与字母“i”容易混淆。若还不可正常充值，可联系客服人员，提供卡号和密码进行确认。</p>
+          <p>
+            <strong>问：学信卡面值多少？有何区别么？</strong></p>
+          <p>答：面值为200元、500元、1000、2000元。执行统一收费标准，功能完全相同。</p>
+          <p>
+            <strong>问：学信卡是否有有效期限？</strong></p>
+          <p>答：学信卡没有充值使用有效期，充值成功后用来支付企业用户的“机构用户服务费”及其他收费服务。</p>
+          <p>
+            <strong>问：企业用户查询学历是否有限制？</strong></p>
+          <p>答：详见
+            <a href="javascript:void(0);">会员权益</a>。</p>
+          <p>
+            <strong>问：企业会员的用户名或密码忘记如何处理？</strong></p>
+          <p>答：企业找回用户名或密码，请发送
+            <a  href="javascript:void(0);">《企业会员账号查找申请单》</a>（须加盖单位公章）传真至：010-62160938处理。若无法提供准确的注册信息，也可将原申请单位会员的发票连同申请单一起传真。</p>
+          </div>
+        <div class="m_cnt_m"></div>
+        <div class="m_cnt_m"></div>
+        <div class="m_cnt_m">
+          <h2>学籍电子注册相关疑问解答</h2>
+          <strong>本网专访教育部高校学生司副巡视员张浩明</strong>
+          <br>
+          <br>
+          <strong>背景：政策出台，将招生资格、招生计划与学籍、学历电子注册挂钩</strong>
+          <br>
+          <br>2006年1月24日教育部、国家发改委发出《关于编报2006年普通高等教育分学校分专业招生计划的通知》，《通知》明确：为规范普通高校办学秩序和办学行为，严格实行高校招生资格、招生计划与学生学籍电子注册和网上毕业证书查询相挂钩，切实维护招生计划管理的严肃性。《通知》对招生计划的管理做出了严格的规定。
+          <br>
+          <br>
+          <strong>问：什么是学籍？怎样才能取得学籍？</strong>
+          <br>答：学籍是学生在校学习资格的认可，取得学生身份和获得学习资格首先要取得学籍。教育部第21号部长令发布的《普通高等学校学生管理规定》规定，按国家招生规定录取的新生，持录取通知书按学校有关要求和规定的期限到校办理入学手续，学校在三个月内按照国家招生规定对其进行复查。复查合格者，予以注册，取得学籍。该《规定》明确高校学生取得学籍的前提是“按国家招生规定录取”，即参加高考经省级招办办理录取手续的学生才有可能取得录取学校的学籍。
+          <br>
+          <br>
+          <strong>问：为什么要实行高校学籍电子注册？学籍怎么进行电子注册？</strong>
+          <br>答：近年来，有少数高校无视国家规定，擅自扩大招生计划，不经省级招办自行录取新生，这是严重的违规行为，破坏了国家招生制度，违背了高等教育的公平、公正原则，扰乱了高等教育办学秩序，对此，必须坚决予以制止。因此，教育部明确从2006年开始实行学生学籍电子注册。
+          <br>学籍电子注册，即当年省级招办录取结束后，将各高校在本省（自治区、直辖市）录取的新生数据报教育部。教育部在网上公布各高校经省级招办录取的新生名单，各高校在新生入校后上网核对本校录取名单，网上有的学生即予注册，取得学籍。网上没有的学生要么是省级招办上报录取数据有误，要么是自行录取。居于前者，学校要及时与学生来源省级招办复核更正；居于后者，即学校违规招生，必须及时处理，否则，待学生学习结束发不了毕业证书，学校要承担由此引起的后果及责任。因为，国家实行了学历证书电子注册制度，学生毕业时所取得毕（结）业证书要报教育部电子注册并上网供社会查询。而每一份毕（结）业证书电子注册的依据是学生学籍电子注册的数据档案。
+          <br>
+          <br>
+          <strong>问：实行高校学籍电子注册有什么意义？</strong>
+          <br>答：实行高校学籍电子注册对行政管理决策和社会服务都具有很重要的意义，它不仅可以规范高校招生秩序和办学行为，而且可以掌握每年高校新生入学报到率和注册情况，为国家制定年度招生计划和宏观调控提供科学依据。此外也是促进学历证书电子注册工作在管理和功能上的又一次重大跨越，并为提高公共服务水平创造条件。
+          <br>
+          <br>
+          <strong>问：什么时候开始实行高校学籍电子注册？</strong>
+          <br>答：教育部将从2006年下半年开始实行高校学籍电子注册，相关的政策文件将于今年暑期正式出台，配套的技术准备工作也已接近尾声。其实这项工作已经进行了两年的试点，从2004年高校新生入学开始，教育部就实行了网上新生名单核对工作，而学籍电子注册工作是对新生名单核对工作的进一步规范和延伸，把在校生管理也涵盖起来。这样从高校招生网上录取，延伸到高校学籍电子注册、在校生管理，然后与学历证书电子注册工作接轨，从而实现高校学生全程网络化管理。
+          <br>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      // 内容
+      var divs = $('#rightCnt>div');
+      // 点击事件
+      for (var i = 0; i < divs.length; i++) {
+        (function(i) {
+            $('#leftMenu .leftMenu'+i).click(function() {
+              $('#leftMenu li').removeClass('current');
+              $(this).addClass('current');
+              divs.css('display','none');
+              divs.eq(i).css('display','block');
+            })
+        })(i)
+      }
+      $('.index').trigger('click');
+    })
+  </script>
+</html>
+

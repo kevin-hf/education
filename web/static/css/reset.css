@@ -1,0 +1,45 @@
+/*清除外边距*/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, figure, /*结构元素*/
+dl, dt, dd, ul, ol, li, /*列表元素*/
+fieldset, lengend, button, input, textarea, /*表单元素*/
+th, td, /*表格元素*/
+pre /*文本格式元素*/ {
+    margin: 0;
+}
+
+
+/*清除内边距*/
+ul, ol, menu {
+    padding: 0;
+}
+
+
+/*重置列表元素*/
+ul, ol {
+    list-style: none;
+}
+
+
+/*将字体扶正*/
+address, cite, dfn, em, var {
+    font-style: normal;
+}
+
+
+/*清下划线*/
+a {
+    text-decoration: none;
+    color: black;
+}
+/*鼠标略过a标签，显示下划线*/
+a:hover {
+    /* text-decoration: underline; */
+}
+
+
+/*清浮动*/
+.clear:after {
+    content: '';
+    display: block;
+    clear: both;
+}

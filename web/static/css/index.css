@@ -1,0 +1,147 @@
+@charset "UTF-8";
+
+body {
+  background: #F1F1F1;
+  color: #333333;
+  text-align: left;
+  font: 14px/25px "Microsoft YaHei", "微软雅黑", "SimSun", "宋体", HELVETICA;
+}
+
+.h_m_l {
+  width: 779px;
+  /* float: left; */
+  display: block;
+  background: url(https://t3.chei.com.cn/chsi/images/2014/vline.gif) repeat-y right;
+}
+
+.main {
+  /* width: 998px; */
+  width: 781px;
+  height: 391px;
+  border: 1px solid #E6E6E6;
+  background: #FFFFFF;
+  font-size: 12px;
+  line-height: 24px;
+  clear: both;
+  margin: 0 auto;
+  white-space: nowrap;
+  margin-top: 100px;
+}
+
+.h_m_l h2 {
+  height: 48px;
+  line-height: 50px;
+  border-bottom: 1px solid #E6E6E6;
+  padding-left: 20px;
+  font-size: 16px;
+  color: #2EAFBB;
+}
+
+.h_m_div3 {
+  width: 260px;
+  background: url(https://t3.chei.com.cn/chsi/images/2014/vline.gif) repeat-y right;
+  float: left;
+  display: inline;
+  color: #666666;
+  vertical-align: top;
+}
+
+.h_m_div3_nob {
+  width: 259px;
+  background: none;
+}
+
+.h_m_div3_nob .h_m_div3_b {
+  margin-top: 1px;
+  margin-right: 0;
+}
+
+.h_m_div3_t {
+  padding: 10px 0;
+  width: 218px;
+  margin: 0 auto 10px auto;
+  border-bottom: 1px dotted #DDDDDD;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.h_m_div3_t h3.i01 {
+  text-align: left;
+  padding-left: 66px;
+  height: 47px;
+  line-height: 47px;
+  margin: 5px 0;
+  background: url(https://t1.chei.com.cn/chsi/images/2014/icon_index3.png) no-repeat 0 0;
+}
+
+.h_m_div3_t h3.i02 {
+  text-align: left;
+  padding-left: 66px;
+  height: 47px;
+  line-height: 47px;
+  margin: 5px 0;
+  background: url(https://t1.chei.com.cn/chsi/images/2014/icon_index3.png) no-repeat 0 -47px;
+}
+
+.h_m_div3_t h3 a, .h_m_div3_t h3 a:link, .h_m_div3_t h3 a:visited {
+  color: #333333;
+}
+
+a:link, a:visited {
+  color: #333333;
+  text-decoration: none;
+}
+
+.h_m_div3_ul {
+  width: 218px;
+  margin: 0 auto;
+  padding-bottom: 15px;
+  position: relative;
+}
+.logo{
+  /* width: 260px; */
+  position: absolute;
+  bottom: 39px;
+  left: 0px;
+  background: #2EAFBB;
+}
+.logo img{
+  display: block;
+  width: 80%;
+  padding: 10px 10%;
+  margin: 0 auto;
+}
+.h_m_div3_ul li {
+  /* width: 90px; */
+  width: 109px;
+  padding-left: 19px;
+  float: left;
+  display: inline;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+.clearfix:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.h_m_div3_b {
+  height: 40px;
+  line-height: 40px;
+  background: #F6F6F6;
+  text-align: center;
+  margin-right: 1px;
+}
+
+.fontBold {
+  font-weight: bold;
+}
+
+.color333, a.color333 {
+  color: #333333;
+}

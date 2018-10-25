@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>queryResule</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="/static/css/reset.css" rel="stylesheet">
+    <!-- Bootstrap3.3.5 CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/queryResult.css" rel="stylesheet">
+  </head>
+  <body>
+  <div class="container">
+      <div class="queryResule">
+          <h2>中国高等教育学历证书查询结果</h2>
+          {{if .History}}
+            <div id="tableDiv">
+                <table id="table" style="margin: 0 auto;">
+                    <tr>
+                        <td>姓名</td>
+                        <td>出生日期</td>
+                        <td>身份证号</td>
+                        <td>学校名称</td>
+                        <td>入学日期</td>
+                        <td>毕(结)业日期</td>
+                        <td>专业</td>
+                        <td>层次</td>
+                    </tr>
+                    {{range .Edu.Historys}}
+                        <tr>
+                            <td>{{.Education.Name}}</td>
+                            <td>{{.Education.BirthDay}}</td>
+                            <td>{{.Education.EntityID}}</td>
+                            <td>{{.Education.SchoolName}}</td>
+                            <td>{{.Education.EnrollDate}}</td>
+                            <td>{{.Education.GraduationDate}}</td>
+                            <td>{{.Education.Major}}</td>
+                            <td>{{.Education.Level}}</td>
+                        </tr>
+                    {{end}}
+                </table>
+            </div>
+          {{end}}
+          <div class="top">
+              <div class="left">
+                  <p>
+                      <span>姓名：</span>
+                      <span>{{.Edu.Name}}</span>
+                  </p>
+                  <p>
+                      <span>籍贯：</span>
+                      <span>{{.Edu.Place}}</span>
+                  </p>
+                  <p>
+                      <span>民族：</span>
+                      <span>{{.Edu.Nation}}</span>
+                  </p>
+                  <p>
+                      <span>入学日期：</span>
+                      <span>{{.Edu.EnrollDate}}</span>
+                  </p>
+                  <p>
+                      <span>学校名称：</span>
+                      <span>{{.Edu.SchoolName}}</span>
+                  </p>
+                  <p>
+                      <span>学历类别：</span>
+                      <span>{{.Edu.QuaType}}</span>
+                  </p>
+                  <p>
+                      <span>层次：</span>
+                      <span>{{.Edu.Level}}</span>
+                  </p>
+                  <p>
+                      <span>毕(结)业：</span>
+                      <span>{{.Edu.Graduation}}</span>
+                  </p>
+              </div>
+              <div class="right">
+                  <p>
+                      <span>性别：</span>
+                      <span>{{.Edu.Gender}}</span>
+                  </p>
+                  <p>
+                      <span>出生日期：</span>
+                      <span>{{.Edu.BirthDay}}</span>
+                  </p>
+                  <p>
+                      <span>身份证号：</span>
+                      <span>{{.Edu.EntityID}}</span>
+                  </p>
+                  <p>
+                      <span>毕(结)业日期：</span>
+                      <span>{{.Edu.GraduationDate}}</span>
+                  </p>
+                  <p>
+                      <span>专业：</span>
+                      <span>{{.Edu.Major}}</span>
+                  </p>
+
+                  <p>
+                      <span>学习形式：</span>
+                      <span>{{.Edu.Mode}}</span>
+                  </p>
+                  <p>
+                      <span>学制：</span>
+                      <span>{{.Edu.Length}}</span>
+                  </p>
+                  <p>
+                      <span>证书编号：</span>
+                      <span>{{.Edu.CertNo}}</span>
+                  </p>
+              </div>
+              <div class="headImg">
+                  <img src="{{.Edu.Photo}}" alt="">
+              </div>
+          </div>
+          <p>
+              {{if eq .CurrentUser.IsAdmin "T"}}
+                  <a href="/modifyPage?certNo={{.Edu.CertNo}}&name={{.Edu.Name}}">修改信息</a>
+              {{end}}
+              <a href="/index">返回首页</a>
+          </p>
+          <div class="bottom">
+              <p><b>声明</b></p>
+              <p>1、未经学历信息权属人同息,不得将本材科用于违背权属人意愿之用速,学历信息内容标注“*”号,表示该内容不详,学历信息如有修改,请以网站在线查询内容为准则。</p>
+              <p>
+                  2.学历证书查询结果仅供查询人使用,不具有再验证功能,如
+                  需向第三方提供学历信息,建议使用具有检证功能的学历证书电子注册备案表。
+              </p>
+          </div>
+      </div>
+  </div>
+  </body>
+</html>

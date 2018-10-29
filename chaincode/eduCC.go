@@ -16,7 +16,7 @@ const DOC_TYPE = "eduObj"
 
 // 保存edu
 // args: education
-func PutBill(stub shim.ChaincodeStubInterface, edu Education) ([]byte, bool) {
+func PutEdu(stub shim.ChaincodeStubInterface, edu Education) ([]byte, bool) {
 
 	edu.ObjectType = DOC_TYPE
 
@@ -113,7 +113,7 @@ func (t *EducationChaincode) addEdu(stub shim.ChaincodeStubInterface, args []str
 		return shim.Error("要添加的身份证号码已存在")
 	}
 
-	_, bl := PutBill(stub, edu)
+	_, bl := PutEdu(stub, edu)
 	if !bl {
 		return shim.Error("保存信息时发生错误")
 	}
@@ -255,7 +255,7 @@ func (t *EducationChaincode) updateEdu(stub shim.ChaincodeStubInterface, args []
 	result.Graduation = info.Graduation
 	result.CertNo = info.CertNo;
 
-	_, bl = PutBill(stub, result)
+	_, bl = PutEdu(stub, result)
 	if !bl {
 		return shim.Error("保存信息信息时发生错误")
 	}

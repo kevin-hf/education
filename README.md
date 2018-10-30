@@ -1151,7 +1151,7 @@ func (t *EducationChaincode) delEdu(stub shim.ChaincodeStubInterface, args []str
 
 - 创建应用通道：相关内容及代码请参见 [从零到壹构建基于 Fabric-SDK-Go 的Web项目实战之－创建sdk](https://github.com/kevin-hf/kongyixueyuan#33-创建sdk)。
 - 安装依赖：相关内容及代码请参见 [从零到壹构建基于 Fabric-SDK-Go 的Web项目实战之－下载所需依赖](https://github.com/kevin-hf/kongyixueyuan#42-下载所需依赖)。
-- 链码自动布署：相关内容代码请参见 [从零到壹构建基于 Fabric-SDK-Go 的Web项目实战之－链码自动布署](https://github.com/kevin-hf/kongyixueyuan#6-链码安装及实例化)。
+- 链码自动布署：相关内容代码请参见 [从零到壹构建基于 Fabric-SDK-Go 的Web项目实战之－链码安装与实例化](https://github.com/kevin-hf/kongyixueyuan#6-链码安装及实例化)。
 
 
 
@@ -1715,7 +1715,7 @@ $ make
 
 
 
-# 控制层实现
+# 4 控制层实现
 
 ## 4.1 设置系统用户
 
@@ -2180,7 +2180,7 @@ func WebStart(app controller.Application)  {
 
 
 
-# 视图层实现
+# 5 视图层实现
 
 ## 5.1 目录结构
 

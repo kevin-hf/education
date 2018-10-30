@@ -851,6 +851,10 @@ func main(){
 - **updateEdu：**实现对状态进行编辑功能
 - **delEdu：**从分类账本中删除状态，此功能暂不提供
 
+```shell
+$ vim chaincode/eduCC.go
+```
+
 `eduCC.go` 文件完整内容如下：
 
 ```go
@@ -1149,9 +1153,494 @@ func (t *EducationChaincode) delEdu(stub shim.ChaincodeStubInterface, args []str
 
 链码编写好以后，我们需要使用 Fabric-SDK-Go 提供的相关 API 来实现对链码的安装及实例化操作，而无需在命令提示符中输入烦锁的相关操作命令。接下来依次完成如下步骤：
 
-- 创建应用通道：相关内容及代码请参见 [从零到壹构建基于 Fabric-SDK-Go 的Web项目实战之－创建sdk](https://github.com/kevin-hf/kongyixueyuan#33-创建sdk)。
-- 安装依赖：相关内容及代码请参见 [从零到壹构建基于 Fabric-SDK-Go 的Web项目实战之－下载所需依赖](https://github.com/kevin-hf/kongyixueyuan#42-下载所需依赖)。
-- 链码自动布署：相关内容代码请参见 [从零到壹构建基于 Fabric-SDK-Go 的Web项目实战之－链码安装与实例化](https://github.com/kevin-hf/kongyixueyuan#6-链码安装及实例化)。
+### 2.4.1 创建SDK
+
+在 `sdkInit` 目录下新创建一个名为 `start.go` 的go文件利用 vim 编辑器进行编辑：
+
+```shell
+$ cd $GOPATH/src/github.com/kongyixueyuan.com/education
+$ vim sdkInit/start.go 
+```
+
+```go
+/**
+  author: hanxiaodong
+ */
+package sdkInit
+
+import (
+	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
+	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
+	"fmt"
+	"github.com/hyperledger/fabric-sdk-go/pkg/client/resmgmt"
+	mspclient "github.com/hyperledger/fabric-sdk-go/pkg/client/msp"
+	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/msp"
+	"github.com/hyperledger/fabric-sdk-go/pkg/common/errors/retry"
+
+)
+
+const ChaincodeVersion  = "1.0"
+
+func SetupSDK(ConfigFile string, initialized bool) (*fabsdk.FabricSDK, error) {
+
+	if initialized {
+		return nil, fmt.Errorf("Fabric SDK已被实例化")
+	}
+
+	sdk, err := fabsdk.New(config.FromFile(ConfigFile))
+	if err != nil {
+		return nil, fmt.Errorf("实例化Fabric SDK失败: %v", err)
+	}
+
+	fmt.Println("Fabric SDK初始化成功")
+	return sdk, nil
+}
+
+func CreateChannel(sdk *fabsdk.FabricSDK, info *InitInfo) error {
+
+	clientContext := sdk.Context(fabsdk.WithUser(info.OrgAdmin), fabsdk.WithOrg(info.OrgName))
+	if clientContext == nil {
+		return fmt.Errorf("根据指定的组织名称与管理员创建资源管理客户端Context失败")
+	}
+
+	// New returns a resource management client instance.
+	resMgmtClient, err := resmgmt.New(clientContext)
+	if err != nil {
+		return fmt.Errorf("根据指定的资源管理客户端Context创建通道管理客户端失败: %v", err)
+	}
+
+	// New creates a new Client instance
+	mspClient, err := mspclient.New(sdk.Context(), mspclient.WithOrg(info.OrgName))
+	if err != nil {
+		return fmt.Errorf("根据指定的 OrgName 创建 Org MSP 客户端实例失败: %v", err)
+	}
+
+	//  Returns: signing identity
+	adminIdentity, err := mspClient.GetSigningIdentity(info.OrgAdmin)
+	if err != nil {
+		return fmt.Errorf("获取指定id的签名标识失败: %v", err)
+	}
+
+	// SaveChannelRequest holds parameters for save channel request
+	channelReq := resmgmt.SaveChannelRequest{ChannelID:info.ChannelID, ChannelConfigPath:info.ChannelConfig, SigningIdentities:[]msp.SigningIdentity{adminIdentity}}
+	// save channel response with transaction ID
+	 _, err = resMgmtClient.SaveChannel(channelReq, resmgmt.WithRetry(retry.DefaultResMgmtOpts), resmgmt.WithOrdererEndpoint(info.OrdererOrgName))
+	if err != nil {
+		return fmt.Errorf("创建应用通道失败: %v", err)
+	}
+
+	fmt.Println("通道已成功创建，")
+
+	info.OrgResMgmt = resMgmtClient
+
+	// allows for peers to join existing channel with optional custom options (specific peers, filtered peers). If peer(s) are not specified in options it will default to all peers that belong to client's MSP.
+	err = info.OrgResMgmt.JoinChannel(info.ChannelID, resmgmt.WithRetry(retry.DefaultResMgmtOpts), resmgmt.WithOrdererEndpoint(info.OrdererOrgName))
+	if err != nil {
+		return fmt.Errorf("Peers加入通道失败: %v", err)
+	}
+
+	fmt.Println("peers 已成功加入通道.")
+	return nil
+}
+```
+
+在这个阶段，我们只初始化一个客户端，它将与 peer，CA 和 orderer进行通信。 还创建了一个指定的应用通道, 并将 Peer 节点加入到此通道中
+
+### 2.4.2 编写测试代码
+
+为了确保客户端能够初始化所有组件，将在启动网络的情况下进行简单的测试。 为了做到这一点，我们需要编写 Go 代码，在项目根目录下新创建一个 `main.go` 的主文件并编辑内容
+
+```shell
+$ cd $GOPATH/src/github.com/kongyixueyuan.com/education
+$ vim main.go
+```
+
+`main.go` 文件完整源代码如下：
+
+```go
+/**
+  author: hanxiaodong
+ */
+package main
+
+import (
+	"os"
+	"fmt"
+	"github.com/kongyixueyuan.com/education/sdkInit"
+)
+
+const (
+	configFile = "config.yaml"
+	initialized = false
+	SimpleCC = "educc"
+)
+
+func main() {
+
+	initInfo := &sdkInit.InitInfo{
+
+		ChannelID: "kevinkongyixueyuan",
+		ChannelConfig: os.Getenv("GOPATH") + "/src/github.com/kongyixueyuan.com/education/fixtures/artifacts/channel.tx",
+
+		OrgAdmin:"Admin",
+		OrgName:"Org1",
+		OrdererOrgName: "orderer.kevin.kongyixueyuan.com",
+
+	}
+
+	sdk, err := sdkInit.SetupSDK(configFile, initialized)
+	if err != nil {
+		fmt.Printf(err.Error())
+		return
+	}
+
+	defer sdk.Close()
+
+	err = sdkInit.CreateChannel(sdk, initInfo)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+}
+```
+
+
+
+### 2.5 安装dep工具
+
+在运行应用程序之前，需要将 Go 源代码时行编译，但在开始编译之前，我们需要使用一个 `vendor` 目录来包含应用中所需的所有的依赖关系。 在我们的GOPATH中，我们有Fabric SDK Go和其他项目。 在尝试编译应用程序时，Golang 会在 GOPATH 中搜索依赖项，但首先会检查项目中是否存在`vendor` 文件夹。 如果依赖性得到满足，那么 Golang 就不会去检查 GOPATH 或 GOROOT。 这在使用几个不同版本的依赖关系时非常有用（可能会发生一些冲突，比如在例子中有多个BCCSP定义，通过使用像[`dep`](https://translate.googleusercontent.com/translate_c?depth=1&hl=zh-CN&rurl=translate.google.com&sl=en&sp=nmt4&tl=zh-CN&u=https://github.com/golang/dep&xid=25657,15700002,15700019,15700124,15700149,15700168,15700186,15700201&usg=ALkJrhgelyRl7D3pIJRpuA8cynagkWYHXg)这样的工具在`vendor`目录中来处理这些依赖关系。
+
+将如下环境变量设置到用户的环境文件中(.bashrc)中
+
+```shell
+$ vim ~/.bashrc
+
+export PATH=$PATH:$GOPATH/bin
+```
+
+执行 `source` 命令
+
+```shell
+$ source ~/.bashrc
+```
+
+安装 dep 工具
+
+```shell
+$ go get -u github.com/golang/dep/cmd/dep
+```
+
+### 2.5.1 下载所需依赖
+
+`dep` 工具安装好之后我们来安装应用所需要的依赖
+
+使用 `dep` 命令需要一个名为 `Gopkg.toml` 的配置文件指定依赖信息
+
+创建一个名为`Gopkg.toml`的文件并将其复制到里面：
+
+```shell
+$ vim Gopkg.toml
+```
+
+```toml
+ignored = ["github.com/kongyixueyuan.com/education/chaincode"]
+
+[[constraint]]
+  # Release v1.0.0-alpha4
+  name = "github.com/hyperledger/fabric-sdk-go"
+  revision = "a906355f73d060d7bf95874a9e90dc17589edbb3"
+
+```
+
+使用`dep`限制在 vendor 中指定希望SDK的特定版本。
+
+> 因为在使用SDK执行安装与实例化链码部分时，使用 dep ensure 命令会报依赖错误，所以必须添加 ignored 选项
+
+保存该文件，然后执行 `dep ensure` 命令，该命令会自动将项目所需的依赖下载至当前的 `vendor` 目录中（下载依赖可能需要一段时间）：
+
+```shell
+$ dep ensure
+```
+
+提醒：`dep ensure` 命令执行由于时间比较长，所以执行一次后即可，在后面的Makefile中可注释`@dep ensure`命令。
+
+### 2.5.2 测试Fabric-SDK
+
+所在依赖下载安装完成后，我们就可以进行测试
+
+首先启动网络：
+
+```shell
+$ cd fixtures
+$ docker-compose up -d
+```
+
+然后编译并运行：
+
+```shell
+$ cd ..
+$ go build
+$ ./education
+```
+
+命令执行后输出结果如下图所示：
+
+### 2.5.3 利用Makefile
+
+Fabric SDK生成一些文件，如证书，二进制文件和临时文件。 关闭网络不会完全清理环境，当需要重新启动时，这些文件将被使用以避免重复的构建过程。 对于开发，可以快速测试，但对于真正的测试环境，需要清理所有内容并从头开始。
+
+*如何清理环境*
+
+- 关闭你的网络： 
+
+  ```shell
+  $ cd $GOPATH/src/github.com/kongyixueyuan.com/education/fixtures 
+  $ docker-compose down
+  ```
+
+- 删除证书存储（在配置文件中，`client.credentialStore`中定义）：
+
+  ```shell
+  $ rm -rf /tmp/kongyixueyuan-*
+  ```
+
+- 删除一些不是由`docker-compose`命令生成的docker容器和docker镜像： 
+
+  ```shell
+  $ docker rm -f -v `docker ps -a --no-trunc | grep "kongyixueyuan" | cut -d ' ' -f 1` 2>/dev/null
+  和 
+  $ docker rmi `docker images --no-trunc | grep "kongyixueyuan" | cut -d ' ' -f 1` 2>/dev/null
+  ```
+
+*如何更有效率？*
+
+可以使用一个命令在一个步骤中自动完成所有的这些任务。 构建和启动过程也可以设置自动化。 为此，将创建一个`Makefile` 文件。 首先，确保您的系统中在  `make` 工具：
+
+```shell
+$ make --version
+```
+
+> 如果没有 `make` 工具（Ubuntu），则需要先安装 `make` ：
+>
+> ```shell
+> $ sudo apt install make 
+> ```
+
+然后使用以下内容在项目的根目录下创建一个名为`Makefile`的文件并进行编辑：
+
+```shell
+$ cd $GOPATH/src/github.com/kongyixueyuan.com/education
+$ vim Makefile
+```
+
+`Makefile` 文件完整内容如下：
+
+```makefile
+.PHONY: all dev clean build env-up env-down run
+
+all: clean build env-up run
+
+dev: build run
+
+##### BUILD
+build:
+	@echo "Build ..."
+	@dep ensure
+	@go build
+	@echo "Build done"
+
+##### ENV
+env-up:
+	@echo "Start environment ..."
+	@cd fixtures && docker-compose up --force-recreate -d
+	@echo "Environment up"
+
+env-down:
+	@echo "Stop environment ..."
+	@cd fixtures && docker-compose down
+	@echo "Environment down"
+
+##### RUN
+run:
+	@echo "Start app ..."
+	@./education
+
+##### CLEAN
+clean: env-down
+	@echo "Clean up ..."
+	@rm -rf /tmp/kongyixueyuan-* kongyixueyuan
+	@docker rm -f -v `docker ps -a --no-trunc | grep "kongyixueyuan" | cut -d ' ' -f 1` 2>/dev/null || true
+	@docker rmi `docker images --no-trunc | grep "kongyixueyuan" | cut -d ' ' -f 1` 2>/dev/null || true
+	@echo "Clean up done"
+```
+
+现在完成任务：
+
+1. 整个环境将被清理干净，
+2. go程序将被编译，
+3. 之后将部署网络
+4. 最后该应用程序将启动并运行。
+
+要使用它，请进入项目的根目录并使用`make`命令：
+
+- 任务`all` ： `make`或`make all`
+- 任务`clean` ：清理一切并释放网络（ `make clean` ）
+- 任务`build` ：只需构建应用程序（ `make build` ）
+- 任务`env-up` ：只需建立网络（ `make env-up` ）
+- ...
+
+![createchannel](./img/createchannel.png)
+
+如果出现上图的输出结果，则说明执行成功，否则需要根据出现的错误提示进行相应的处理。
+
+## 2.6 链码安装及实例化
+
+### 2.6.1 使用Fabric-SDK安装及实例化链码
+
+编辑 `sdkInit/start.go` 文件，利用Fabric-SDK提供的接口，对链码进行安装及实例化
+
+```shell
+$ vim sdkInit/start.go
+```
+
+在 `start.go` 文件中添加如下内容
+
+```go
+import (
+    [......]
+    
+	"github.com/hyperledger/fabric-sdk-go/pkg/fab/ccpackager/gopackager"
+	"github.com/hyperledger/fabric-sdk-go/third_party/github.com/hyperledger/fabric/common/cauthdsl"
+	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
+)
+
+// hanxiaodong
+// QQ群（专业Fabric交流群）：862733552
+func InstallAndInstantiateCC(sdk *fabsdk.FabricSDK, info *InitInfo) (*channel.Client, error) {
+	fmt.Println("开始安装链码......")
+	// creates new go lang chaincode package
+	ccPkg, err := gopackager.NewCCPackage(info.ChaincodePath, info.ChaincodeGoPath)
+	if err != nil {
+		return nil, fmt.Errorf("创建链码包失败: %v", err)
+	}
+
+	// contains install chaincode request parameters
+	installCCReq := resmgmt.InstallCCRequest{Name: info.ChaincodeID, Path: info.ChaincodePath, Version: ChaincodeVersion, Package: ccPkg}
+	// allows administrators to install chaincode onto the filesystem of a peer
+	_, err = info.OrgResMgmt.InstallCC(installCCReq, resmgmt.WithRetry(retry.DefaultResMgmtOpts))
+	if err != nil {
+		return nil, fmt.Errorf("安装链码失败: %v", err)
+	}
+
+	fmt.Println("指定的链码安装成功")
+	fmt.Println("开始实例化链码......")
+
+	//  returns a policy that requires one valid
+	ccPolicy := cauthdsl.SignedByAnyMember([]string{"org1.kevin.kongyixueyuan.com"})
+
+	instantiateCCReq := resmgmt.InstantiateCCRequest{Name: info.ChaincodeID, Path: info.ChaincodePath, Version: ChaincodeVersion, Args: [][]byte{[]byte("init")}, Policy: ccPolicy}
+	// instantiates chaincode with optional custom options (specific peers, filtered peers, timeout). If peer(s) are not specified
+	_, err = info.OrgResMgmt.InstantiateCC(info.ChannelID, instantiateCCReq, resmgmt.WithRetry(retry.DefaultResMgmtOpts))
+	if err != nil {
+		return nil, fmt.Errorf("实例化链码失败: %v", err)
+	}
+
+	fmt.Println("链码实例化成功")
+
+	clientChannelContext := sdk.ChannelContext(info.ChannelID, fabsdk.WithUser(info.UserName), fabsdk.WithOrg(info.OrgName))
+	// returns a Client instance. Channel client can query chaincode, execute chaincode and register/unregister for chaincode events on specific channel.
+	channelClient, err := channel.New(clientChannelContext)
+	if err != nil {
+		return nil, fmt.Errorf("创建应用通道客户端失败: %v", err)
+	}
+
+	fmt.Println("通道客户端创建成功，可以利用此客户端调用链码进行查询或执行事务.")
+
+	return channelClient, nil
+}
+```
+
+### 2.6.2 在main中调用
+
+编辑 `main.go` 文件
+
+```shell
+$ vim main.go
+```
+
+`main.go` 完整内容如下：
+
+```go
+/**
+  author: hanxiaodong
+ */
+package main
+
+import (
+	"os"
+	"fmt"
+	"github.com/kongyixueyuan.com/education/sdkInit"
+)
+
+const (
+	configFile = "config.yaml"
+	initialized = false
+	SimpleCC = "educc"
+)
+
+func main() {
+
+	initInfo := &sdkInit.InitInfo{
+
+		ChannelID: "kevinkongyixueyuan",
+		ChannelConfig: os.Getenv("GOPATH") + "/src/github.com/kongyixueyuan.com/education/fixtures/artifacts/channel.tx",
+
+		OrgAdmin:"Admin",
+		OrgName:"Org1",
+		OrdererOrgName: "orderer.kevin.kongyixueyuan.com",
+
+		ChaincodeID: SimpleCC,
+		ChaincodeGoPath: os.Getenv("GOPATH"),
+		ChaincodePath: "github.com/kongyixueyuan.com/education/chaincode/",
+		UserName:"User1",
+	}
+
+	sdk, err := sdkInit.SetupSDK(configFile, initialized)
+	if err != nil {
+		fmt.Printf(err.Error())
+		return
+	}
+
+	defer sdk.Close()
+
+	err = sdkInit.CreateChannel(sdk, initInfo)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	channelClient, err := sdkInit.InstallAndInstantiateCC(sdk, initInfo)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	fmt.Println(channelClient)
+
+}
+```
+
+### 2.6.3 测试
+
+执行 `make` 命令
+
+```shell
+$ make
+```
+
+输出如下：
+
+![cc实例化成功](./img/installcc.png)
 
 
 

@@ -364,7 +364,7 @@ $ docker-compose down
 
 # 2 SDK与链码实现
 
-## 2.1 创建 `config.yaml` 文件
+## 2.1 创建 config.yaml 文件
 
 确认 Hyperledger Fabric 基础网络环境运行没有问题后，现在我们通过创建一个新的 config.yaml 配置文件给应用程序所使用的 Fabric-SDK-Go 配置相关参数及 Fabric 组件的通信地址
 
@@ -850,10 +850,6 @@ func main(){
 - **queryEduInfoByEntityID：**根据指定的身份证号码（Key）查询状态
 - **updateEdu：**实现对状态进行编辑功能
 - **delEdu：**从分类账本中删除状态，此功能暂不提供
-
-```shell
-$ vim chaincode/eduCC.go
-```
 
 `eduCC.go` 文件完整内容如下：
 
@@ -1641,6 +1637,8 @@ $ make
 输出如下：
 
 ![cc实例化成功](./img/installcc.png)
+
+
 
 
 

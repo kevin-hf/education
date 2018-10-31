@@ -3002,7 +3002,7 @@ $ make
 
 编辑成功自动跳转到根据身份证号码查询结果页面
 
-![login](./img/html_modifyresult.png)
+![login](./img/html_modifyResult.png)
 
 
 
